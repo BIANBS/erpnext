@@ -6,4 +6,5 @@ locale
 latest_updates.json
 .wnf-lang-status
 *.egg-info
+*.bak
 dist/
