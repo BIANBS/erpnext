@@ -63,7 +63,7 @@ erpnext.selling.SalesOrderController = erpnext.selling.SellingController.extend(
 		}
 
 		if (this.frm.doc.docstatus===0) {
-			cur_frm.add_custom_button(__('From Quotation'),
+			/*cur_frm.add_custom_button(__('From Quotation'),
 				function() {
 					frappe.model.map_current_doc({
 						method: "erpnext.selling.doctype.quotation.quotation.make_sales_order",
@@ -76,7 +76,7 @@ erpnext.selling.SalesOrderController = erpnext.selling.SellingController.extend(
 							company: cur_frm.doc.company
 						}
 					})
-				}, "icon-download", "btn-default");
+				}, "icon-download", "btn-default");*/
 		}
 
 		this.order_type(doc);

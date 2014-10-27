@@ -8,26 +8,6 @@ def get_data():
 			"items": [
 				{
 					"type": "doctype",
-					"name": "Lead",
-					"description": _("Database of potential customers."),
-				},
-				{
-					"type": "doctype",
-					"name": "Customer",
-					"description": _("Customer database."),
-				},
-				{
-					"type": "doctype",
-					"name": "Opportunity",
-					"description": _("Potential opportunities for selling."),
-				},
-				{
-					"type": "doctype",
-					"name": "Quotation",
-					"description": _("Quotes to Leads or Customers."),
-				},
-				{
-					"type": "doctype",
 					"name": "Sales Order",
 					"description": _("Confirmed orders from Customers."),
 				},
@@ -38,14 +18,14 @@ def get_data():
 				},
 				{
 					"type": "doctype",
-					"name": "Address",
-					"description": _("All Addresses."),
-				},
-				{
-					"type": "doctype",
 					"name": "Item",
 					"description": _("All Products or Services."),
 				},
+			    {
+                                        "type": "doctype",
+                                        "name": "Offer",
+                                        "description": _("All Offer."),
+                                },
 			]
 		},
 		{

@@ -21,7 +21,9 @@ erpnext.selling.SellingController = erpnext.TransactionController.extend({
 	},
 
 	onload_post_render: function() {
-		cur_frm.get_field(this.fname).grid.set_multiple_add("item_code", "qty");
+		//cur_frm.get_field(this.fname).grid.set_multiple_add("item_code", "qty");
+		//cur_frm.get_field(this.fname).grid.set_offer_add("item_code", "qty");
+
 	},
 
 	setup_queries: function() {
@@ -101,8 +103,15 @@ erpnext.selling.SellingController = erpnext.TransactionController.extend({
 		this.frm.toggle_display("customer_name",
 			(this.frm.doc.customer_name && this.frm.doc.customer_name!==this.frm.doc.customer));
 		if(this.frm.fields_dict.packing_details) {
+
 			var packing_list_exists = (this.frm.doc.packing_details || []).length;
 			this.frm.toggle_display("packing_list", packing_list_exists ? true : false);
+
+			var packing_details_y_exists = (this.frm.doc.packing_details_y || []).length;
+			this.frm.toggle_display("packing_details_y", packing_details_y_exists ? true : false);
+
+            var packing_details_z_exists = (this.frm.doc.packing_details_z || []).length;
+            this.frm.toggle_display("packing_details_z", packing_details_z_exists ? true : false);
 		}
 	},
 
@@ -255,6 +264,7 @@ erpnext.selling.SellingController = erpnext.TransactionController.extend({
 			$.each(this.frm.item_doclist, function(i, item) {
 				frappe.model.round_floats_in(item);
 				item.amount = flt(item.rate * item.qty, precision("amount", item));
+				item.total_item_points = flt(item.price_list_points * item.qty, precision("amount", item));
 
 				me._set_in_company_currency(item, "price_list_rate", "base_price_list_rate");
 				me._set_in_company_currency(item, "rate", "base_rate");
@@ -337,6 +347,17 @@ erpnext.selling.SellingController = erpnext.TransactionController.extend({
 		frappe.model.round_floats_in(this.frm.doc, ["net_total", "net_total_export"]);
 	},
 
+	calculate_total_points: function() {
+		var me = this;
+		this.frm.doc.total_points = 0.0;
+
+		$.each(this.frm.item_doclist, function(i, item) {
+			me.frm.doc.total_points += item.total_item_points;
+		});
+
+		frappe.model.round_floats_in(this.frm.doc, ["total_points"]);
+	},
+
 	calculate_totals: function() {
 		var me = this;
 		var tax_count = this.frm.tax_doclist.length;
@@ -346,6 +367,8 @@ erpnext.selling.SellingController = erpnext.TransactionController.extend({
 			precision("grand_total"));
 		this.frm.doc.grand_total_export = flt(this.frm.doc.grand_total / this.frm.doc.conversion_rate,
 			precision("grand_total_export"));
+
+		this.frm.doc.grand_total_points = flt( this.frm.doc.total_points , precision("sales_order_totalpoints"));
 
 		this.frm.doc.other_charges_total = flt(this.frm.doc.grand_total - this.frm.doc.net_total,
 			precision("other_charges_total"));

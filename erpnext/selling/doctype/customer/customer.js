@@ -53,8 +53,8 @@ cur_frm.cscript.setup_dashboard = function(doc) {
 	if (in_list(user_roles, "Accounts User") || in_list(user_roles, "Accounts Manager"))
 		cur_frm.dashboard.set_headline('<span class="text-muted">'+ __('Loading...')+ '</span>')
 
-	cur_frm.dashboard.add_doctype_badge("Opportunity", "customer");
-	cur_frm.dashboard.add_doctype_badge("Quotation", "customer");
+	//cur_frm.dashboard.add_doctype_badge("Opportunity", "customer");
+	//cur_frm.dashboard.add_doctype_badge("Quotation", "customer");
 	cur_frm.dashboard.add_doctype_badge("Sales Order", "customer");
 	cur_frm.dashboard.add_doctype_badge("Delivery Note", "customer");
 	cur_frm.dashboard.add_doctype_badge("Sales Invoice", "customer");
@@ -72,7 +72,8 @@ cur_frm.cscript.setup_dashboard = function(doc) {
 					+ format_currency(r.message.total_billing, erpnext.get_currency(cur_frm.doc.company))
 					+ '</b> / <span class="text-muted">' + __("Unpaid") + ": <b>"
 					+ format_currency(r.message.total_unpaid, erpnext.get_currency(cur_frm.doc.company))
-					+ '</b></span>');
+					+ '</b></span> <br /><br />' + __("Personal Points") + ": <b>"
+					+ '</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'  + __("Group Points") + ': <b>' +  '</b>');
 			}
 			cur_frm.dashboard.set_badge_count(r.message);
 		}

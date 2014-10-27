@@ -46,6 +46,7 @@ def get_item_details(args):
 		out.update(get_projected_qty(item.name, out.warehouse))
 
 	get_price_list_rate(args, item_doc, out)
+	get_price_list_points(args, item_doc, out)
 
 	if args.transaction_type == "selling" and cint(args.is_pos):
 		out.update(get_pos_settings_item_details(args.company, args))
@@ -159,7 +160,8 @@ def get_basic_details(args, item_doc):
 		"base_rate": 0.0,
 		"amount": 0.0,
 		"base_amount": 0.0,
-		"discount_percentage": 0.0
+		"discount_percentage": 0.0,
+		"price_list_points": 0.0
 	})
 
 	for fieldname in ("item_name", "item_group", "barcode", "brand", "stock_uom"):
@@ -187,6 +189,11 @@ def get_price_list_rate(args, item_doc, out):
 			out.update(get_last_purchase_details(item_doc.name,
 				args.parent, args.conversion_rate))
 
+def get_price_list_points(args, item_code, out):
+	price_list_points = frappe.db.get_value("Item Price", {"price_list": args.price_list, "item_code": args.item_code}, "price_list_points")
+	if not price_list_points: return {}
+	out.price_list_points = flt(price_list_points)
+
 def validate_price_list(args):
 	if args.get("price_list"):
 		if not frappe.db.get_value("Price List",
@@ -203,9 +210,7 @@ def validate_conversion_rate(args, meta):
 	validate_conversion_rate(args.currency, args.conversion_rate,
 		meta.get_label("conversion_rate"), args.company)
 
-	args.conversion_rate = flt(args.conversion_rate,
-		get_field_precision(meta.get_field("conversion_rate"),
-			frappe._dict({"fields": args})))
+	get_field_precision(meta.get_field("conversion_rate"), frappe._dict({"fields": args}))
 
 	# validate price list currency conversion rate
 	if not args.get("price_list_currency"):
@@ -324,6 +329,7 @@ def apply_price_list_on_item(args):
 	item_details = frappe._dict()
 	item_doc = frappe.get_doc("Item", args.item_code)
 	get_price_list_rate(args, item_doc, item_details)
+	get_price_list_points(args, item_doc, item_details)
 	item_details.discount_percentage = 0.0
 	item_details.update(get_pricing_rule_for_item(args))
 	return item_details

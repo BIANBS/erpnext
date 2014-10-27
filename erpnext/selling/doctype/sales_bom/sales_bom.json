@@ -26,12 +26,37 @@
    "reqd": 1
   }, 
   {
-   "description": "List items that form the package.", 
-   "fieldname": "item_section", 
-   "fieldtype": "Section Break", 
-   "label": "Package Items", 
+   "fieldname": "type", 
+   "fieldtype": "Select", 
+   "label": "Type", 
+   "options": "Buy (x), Get (z)\nBuy (x+y), Get (z)\n", 
+   "permlevel": 0
+  },
+  {
+   "fieldname": "x", 
+   "fieldtype": "Data", 
+   "label": "Buy (X)", 
    "permlevel": 0
   }, 
+  {
+   "fieldname": "y", 
+   "fieldtype": "Data", 
+   "label": "Buy (Y)", 
+   "permlevel": 0
+  }, 
+  {
+   "fieldname": "z", 
+   "fieldtype": "Data", 
+   "label": "Get (Z)", 
+   "permlevel": 0
+  }, 
+  {
+   "description": "List (x) items that form the package.", 
+   "fieldname": "item_section_x", 
+   "fieldtype": "Section Break", 
+   "label": "Package Items (x)", 
+   "permlevel": 0
+  },
   {
    "fieldname": "sales_bom_items", 
    "fieldtype": "Table", 
@@ -41,12 +66,40 @@
    "options": "Sales BOM Item", 
    "permlevel": 0, 
    "reqd": 1
+  }, 
+  {
+   "description": "List (x) items that form the package.", 
+   "fieldname": "item_section_y", 
+   "fieldtype": "Section Break", 
+   "label": "Package Items(y)", 
+   "permlevel": 0
+  }, 
+  {
+   "fieldname": "sales_bom_items_y", 
+   "fieldtype": "Table", 
+   "label": "Sales BOM Items Y", 
+   "options": "Sales BOM Item Y", 
+   "permlevel": 0
+  }, 
+  {
+   "description": "List (z) items that form the package.", 
+   "fieldname": "item_section_z", 
+   "fieldtype": "Section Break", 
+   "label": "Package Items(z)", 
+   "permlevel": 0
+  }, 
+  {
+   "fieldname": "sales_bom_items_z", 
+   "fieldtype": "Table", 
+   "label": "Sales BOM Item Z", 
+   "options": "Sales BOM Item Z", 
+   "permlevel": 0
   }
  ], 
  "icon": "icon-sitemap", 
  "idx": 1, 
  "is_submittable": 0, 
- "modified": "2014-05-27 03:49:17.656569", 
+ "modified": "2014-10-12 13:08:20.210541", 
  "modified_by": "Administrator", 
  "module": "Selling", 
  "name": "Sales BOM", 

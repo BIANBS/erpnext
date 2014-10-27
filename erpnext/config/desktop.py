@@ -63,5 +63,10 @@ def get_data():
 			"color": "#2c3e50",
 			"icon": "icon-phone",
 			"type": "module"
+		},
+		"Member": {
+			"color": "#2c3e50",
+			"icon": "icon-user",
+			"type": "module"
 		}
 	}

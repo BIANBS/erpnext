@@ -613,6 +613,7 @@ erpnext.TransactionController = erpnext.stock.StockController.extend({
 		this.initialize_taxes();
 		this.determine_exclusive_rate && this.determine_exclusive_rate();
 		this.calculate_net_total();
+		this.calculate_total_points();
 		this.calculate_taxes();
 		this.calculate_totals();
 		this._cleanup();

@@ -215,6 +215,15 @@ class SellingController(StockController):
 
 		self.round_floats_in(self, ["net_total", "net_total_export"])
 
+
+	def calculate_total_points(self):
+		self.total_points = 0.0
+
+		for item in self.item_doclist:
+			 self.total_points += item.total_item_points
+
+		self.round_floats_in(self, "total_points")
+
 	def calculate_totals(self):
 		self.grand_total = flt(self.tax_doclist and \
 			self.tax_doclist[-1].total or self.net_total, self.precision("grand_total"))

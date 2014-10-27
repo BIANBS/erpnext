@@ -106,7 +106,12 @@ class SalesOrder(SellingController):
 		self.validate_warehouse()
 
 		from erpnext.stock.doctype.packed_item.packed_item import make_packing_list
+		from erpnext.stock.doctype.packed_item_y.packed_item_y import make_packing_list_y
+		from erpnext.stock.doctype.packed_item_z.packed_item_z import make_packing_list_z
+
 		make_packing_list(self,'sales_order_details')
+		make_packing_list_y(self,'sales_order_details')
+		make_packing_list_z(self,'sales_order_details')	
 
 		self.validate_with_previous_doc()
 

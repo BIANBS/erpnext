@@ -185,6 +185,54 @@ def item_query(doctype, txt, searchfield, start, page_len, filters):
 				"page_len": page_len
 			})
 
+def offer_query_main(doctype, offer_name, searchfield, start, page_len, filters):
+	from frappe.utils import nowdate
+
+	conditions = []
+
+	return frappe.db.sql("""select `tabOffer Items Main`.item_code as item_code,
+		if(length(`tabOffer Items Main`.description) > 40, \
+			concat(substr(`tabOffer Items Main`.description, 1, 40), "..."), description) as decription, \
+			qty
+		from `tabOffer Items Main`
+		where parent =  %(offer_name)s 
+			{mcond}
+		order by
+			item_code, decription, qty
+		limit %(start)s, %(page_len)s """.format(
+			mcond=get_match_cond('Offer')),
+			{
+				"today": nowdate(),
+				"offer_name": "%s" % offer_name,
+				"_offer_name": offer_name.replace("%", ""),
+				"start": start,
+				"page_len": page_len
+			})
+
+def offer_query_offered(doctype, offer_name, searchfield, start, page_len, filters):
+	from frappe.utils import nowdate
+
+	conditions = []
+
+	return frappe.db.sql("""select `tabOffer Items Offered`.item_code as item_code,
+		if(length(`tabOffer Items Offered`.description) > 40, \
+			concat(substr(`tabOffer Items Offered`.description, 1, 40), "..."), description) as decription, \
+			qty
+		from `tabOffer Items Offered`
+		where parent =  %(offer_name)s 
+			{mcond}
+		order by
+			item_code, decription, qty
+		limit %(start)s, %(page_len)s """.format(
+			mcond=get_match_cond('Offer')),
+			{
+				"today": nowdate(),
+				"offer_name": "%s" % offer_name,
+				"_offer_name": offer_name.replace("%", ""),
+				"start": start,
+				"page_len": page_len
+			})
+
 def bom(doctype, txt, searchfield, start, page_len, filters):
 	conditions = []
 
