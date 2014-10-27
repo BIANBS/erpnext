@@ -46,7 +46,7 @@ def update_packing_list_z_item(obj, packing_item_code, qty, warehouse, line, pac
 	pi.parent_detail_docname = line.name
 	pi.description = item['description']
 	pi.uom = item['stock_uom']
-	pi.qty = flt(qty)
+	#pi.qty = flt(qty)
 	pi.actual_qty = bin and flt(bin['actual_qty']) or 0
 	pi.projected_qty = bin and flt(bin['projected_qty']) or 0
 	if not pi.warehouse:
@@ -68,7 +68,7 @@ def make_packing_list_z(obj, item_table_fieldname):
 	for d in obj.get(item_table_fieldname):
 		if frappe.db.get_value("Sales BOM", {"new_item_code": d.item_code}):
 			for i in get_sales_bom_z_items(d.item_code):
-				update_packing_list_z_item(obj, i['item_code'], flt(i['qty'])*flt(d.qty),
+				update_packing_list_z_item(obj, i['item_code'], flt(i['qty']),
 					d.warehouse, d, packing_list_idx)
 
 			if [d.item_code, d.name] not in parent_items:
