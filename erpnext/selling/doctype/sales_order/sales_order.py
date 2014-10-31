@@ -113,6 +113,8 @@ class SalesOrder(SellingController):
 		make_packing_list_y(self,'sales_order_details')
 		make_packing_list_z(self,'sales_order_details')	
 
+		self.validate_offer()
+
 		self.validate_with_previous_doc()
 
 		if not self.status:
@@ -134,7 +136,20 @@ class SalesOrder(SellingController):
 		for w in warehouses:
 			validate_warehouse_company(w, self.company)
 
-	def validate_with_previous_doc(self):
+    def validate_offer(self):
+        check_list, flag = [], 0
+        check_double_item = []
+
+        for d in self.get('sales_order_details'):
+            e = [d.item_code, d.description, d.warehouse, d.prevdoc_docname or '']
+            f = [d.item_code, d.description]
+
+            if frappe.db.get_value("Item", d.item_code, "is_sales_item") == 'Yes':
+                frappe.throw("Offer")
+            else:
+                frappe.throw("Not Offer")
+
+    def validate_with_previous_doc(self):
 		super(SalesOrder, self).validate_with_previous_doc(self.tname, {
 			"Quotation": {
 				"ref_dn_field": "prevdoc_docname",
