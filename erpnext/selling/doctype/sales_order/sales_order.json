@@ -238,9 +238,47 @@
    "read_only": 1
   }, 
   {
+   "fieldname": "offers_section", 
+   "fieldtype": "Section Break", 
+   "label": "Offers", 
+   "options": "icon-gift", 
+   "permlevel": 0
+  }, 
+  {
+   "fieldname": "offer_name", 
+   "fieldtype": "Link", 
+   "label": "Offer", 
+   "options": "Offer", 
+   "permlevel": 0
+  }, 
+  {
+   "fieldname": "offer_html", 
+   "fieldtype": "HTML", 
+   "label": "Offer_html", 
+   "permlevel": 0
+  }, 
+  {
+   "fieldname": "offer_insert", 
+   "fieldtype": "Button", 
+   "label": "Insert", 
+   "permlevel": 0
+  }, 
+  {
+   "fieldname": "offer_coloumn", 
+   "fieldtype": "Column Break", 
+   "label": "offer_column", 
+   "permlevel": 0
+  }, 
+  {
+   "fieldname": "offer_qty", 
+   "fieldtype": "Int", 
+   "label": "Offer Qty", 
+   "permlevel": 0
+  }, 
+  {
    "fieldname": "items", 
    "fieldtype": "Section Break", 
-   "label": "Items and Offers", 
+   "label": "Items", 
    "oldfieldtype": "Section Break", 
    "options": "icon-shopping-cart", 
    "permlevel": 0
@@ -993,7 +1031,7 @@
  "idx": 1, 
  "is_submittable": 1, 
  "issingle": 0, 
- "modified": "2014-10-25 13:54:49.396455", 
+ "modified": "2014-11-08 14:09:40.907301", 
  "modified_by": "Administrator", 
  "module": "Selling", 
  "name": "Sales Order", 

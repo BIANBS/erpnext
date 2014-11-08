@@ -102,6 +102,7 @@ erpnext.selling.SellingController = erpnext.TransactionController.extend({
 		this._super();
 		this.frm.toggle_display("customer_name",
 			(this.frm.doc.customer_name && this.frm.doc.customer_name!==this.frm.doc.customer));
+
 		if(this.frm.fields_dict.packing_details) {
 
 			var packing_list_exists = (this.frm.doc.packing_details || []).length;
@@ -110,8 +111,8 @@ erpnext.selling.SellingController = erpnext.TransactionController.extend({
 			var packing_details_y_exists = (this.frm.doc.packing_details_y || []).length;
 			this.frm.toggle_display("packing_details_y", packing_details_y_exists ? true : false);
 
-            var packing_details_z_exists = (this.frm.doc.packing_details_z || []).length;
-            this.frm.toggle_display("packing_details_z", packing_details_z_exists ? true : false);
+	            var packing_details_z_exists = (this.frm.doc.packing_details_z || []).length;
+        		this.frm.toggle_display("packing_details_z", packing_details_z_exists ? true : false);
 		}
 	},
 
