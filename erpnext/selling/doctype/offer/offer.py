@@ -7,4 +7,4 @@ from frappe.model.document import Document
 
 class Offer(Document):
 	def autoname(self):
-		self.name = self.offer_name
+		self.name = self.offer_code

@@ -80,13 +80,6 @@ erpnext.selling.SalesOrderController = erpnext.selling.SellingController.extend(
 		}
 
 		this.order_type(doc);
-
-		var $wrapper
-		if(cur_frm.fields_dict['offer_name'] != '') {
-			$wrapper = $(cur_frm.fields_dict.offer_html.wrapper).html('<h3> It Wroks !</h3>')
-		} else {
-			$wrapper = $(cur_frm.fields_dict.offer_html.wrapper).html('<h3> It Doesn\'t work!</h3>')
-		}
 	},
 
 	order_type: function() {

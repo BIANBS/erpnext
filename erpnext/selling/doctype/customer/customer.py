@@ -20,7 +20,7 @@ class Customer(TransactionBase):
 				msgprint(_("A Supplier exists with same name"), raise_exception=1)
 			self.name = self.customer_name
 		else:
-			self.name = make_autoname(self.naming_series+'.#####')
+			self.name = make_autoname('#######')
 
 	def get_company_abbr(self):
 		return frappe.db.get_value('Company', self.company, 'abbr')

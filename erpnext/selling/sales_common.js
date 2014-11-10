@@ -607,5 +607,11 @@ erpnext.selling.SellingController = erpnext.TransactionController.extend({
 			var df = frappe.meta.get_docfield(fname[0], fname[1], me.frm.doc.name);
 			if(df) df.label = label;
 		});
+	},
+	offer_name: function() {
+		var offer_name = cur_frm.fields_dict.offer_name.value;
+		//console.log(offer_name);
+		var $wrapper = $(cur_frm.fields_dict.offer_html.wrapper).html('<h3>'+offer_name+'</h3>');
+		var $wrapper2 = $(cur_frm.fields_dict.offer_html2.wrapper).html('<h3>'+offer_name+'</h3>');
 	}
 });
