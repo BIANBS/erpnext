@@ -612,33 +612,25 @@ erpnext.selling.SellingController = erpnext.TransactionController.extend({
 	offer_name: function() {
 		var offer = cur_frm.fields_dict.offer_name.value;
 
-		var main_offer_items = function(doc, cdt, offer_name) {
-			return {
-            		query: "erpnext.controllers.queries.offer_query_main",
-            		filters: {
-            			"offer_name": offer,
-            		}
-        		};
-        	};
+		if (offer) {
+			var main_offer_items =  this.frm.call({
+				method: "erpnext.controllers.queries.offer_query_main",
+				args: {
+					offer_name: offer,
+				},
+			});
+			var offered_items =  this.frm.call({
+				method: "erpnext.controllers.queries.offer_query_offered",
+				args: {
+					offer_name: offer,
+				},
+			});
+		};
 
-
-                var offered_offer_items = function(doc, cdt, offer_name) {
-                        return {
-                        query: "erpnext.controllers.queries.offer_query_offered",
-                        filters: {
-                                "offer_name": offer,
-                        }
-                        };
-                };
-
-
-        	var main_items = main_offer_items(offer);
-		var offered_items = offered_offer_items(offer);
-
-        	console.log(main_items);
+		console.log(main_offer_items);
 		console.log(offered_items);
 
-		var $wrapper = $(cur_frm.fields_dict.offer_html.wrapper).html('<h3>'+offer+'</h3>');
-		var $wrapper2 = $(cur_frm.fields_dict.offer_html2.wrapper).html('<h3>'+offer+'</h3>');
+		//var $wrapper = $(cur_frm.fields_dict.offer_html.wrapper).html('<h3>'+offer+'</h3>');
+		//var $wrapper2 = $(cur_frm.fields_dict.offer_html2.wrapper).html('<h3>'+offer+'</h3>');
 	}
 });

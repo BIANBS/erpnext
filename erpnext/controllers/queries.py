@@ -196,8 +196,8 @@ def item_query(doctype, txt, searchfield, start, page_len, filters):
 							 "page_len": page_len
 						 })
 
-
-def offer_query_main(doctype, offer_name, searchfield, start, page_len, filters):
+@frappe.whitelist()
+def offer_query_main(offer_name):
 	from frappe.utils import nowdate
 
 	conditions = []
@@ -211,18 +211,16 @@ def offer_query_main(doctype, offer_name, searchfield, start, page_len, filters)
 			{mcond}
 		order by
 			item_code, decription, rate, points
-		limit %(start)s, %(page_len)s """.format(
+		""".format(
 		mcond=get_match_cond('Offer')),
 						 {
 							 "today": nowdate(),
 							 "offer_name": "%s" % offer_name,
-							 "_offer_name": offer_name.replace("%", ""),
-							 "start": start,
-							 "page_len": page_len
-						 })
+							 "_offer_name": offer_name.replace("%", "")
+		})
 
-
-def offer_query_offered(doctype, offer_name, searchfield, start, page_len, filters):
+@frappe.whitelist()
+def offer_query_offered(offer_name):
 	from frappe.utils import nowdate
 
 	conditions = []
@@ -236,14 +234,12 @@ def offer_query_offered(doctype, offer_name, searchfield, start, page_len, filte
 			{mcond}
 		order by
 			item_code, decription, rate, points
-		limit %(start)s, %(page_len)s """.format(
+		""".format(
 		mcond=get_match_cond('Offer')),
 						 {
 							 "today": nowdate(),
 							 "offer_name": "%s" % offer_name,
-							 "_offer_name": offer_name.replace("%", ""),
-							 "start": start,
-							 "page_len": page_len
+							 "_offer_name": offer_name.replace("%", "")
 						 })
 
 
