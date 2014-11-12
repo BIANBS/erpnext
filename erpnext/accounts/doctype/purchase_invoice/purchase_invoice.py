@@ -18,6 +18,7 @@ form_grid_templates = {
 	"entries": "templates/form_grid/item_grid.html"
 }
 
+
 class PurchaseInvoice(BuyingController):
 	tname = 'Purchase Invoice Item'
 	fname = 'entries'
@@ -25,17 +26,17 @@ class PurchaseInvoice(BuyingController):
 	def __init__(self, arg1, arg2=None):
 		super(PurchaseInvoice, self).__init__(arg1, arg2)
 		self.status_updater = [{
-			'source_dt': 'Purchase Invoice Item',
-			'target_dt': 'Purchase Order Item',
-			'join_field': 'po_detail',
-			'target_field': 'billed_amt',
-			'target_parent_dt': 'Purchase Order',
-			'target_parent_field': 'per_billed',
-			'target_ref_field': 'amount',
-			'source_field': 'amount',
-			'percent_join_field': 'purchase_order',
-			'overflow_type': 'billing'
-		}]
+								   'source_dt': 'Purchase Invoice Item',
+								   'target_dt': 'Purchase Order Item',
+								   'join_field': 'po_detail',
+								   'target_field': 'billed_amt',
+								   'target_parent_dt': 'Purchase Order',
+								   'target_parent_field': 'per_billed',
+								   'target_ref_field': 'amount',
+								   'source_field': 'amount',
+								   'percent_join_field': 'purchase_order',
+								   'overflow_type': 'billing'
+							   }]
 
 	def validate(self):
 		if not self.is_opening:
@@ -60,24 +61,24 @@ class PurchaseInvoice(BuyingController):
 		self.validate_write_off_account()
 		self.update_valuation_rate("entries")
 		self.validate_multiple_billing("Purchase Receipt", "pr_detail", "amount",
-			"purchase_receipt_details")
+									   "purchase_receipt_details")
 
 	def set_missing_values(self, for_validate=False):
 		if not self.credit_to:
 			self.credit_to = get_party_account(self.company, self.supplier, "Supplier")
 		if not self.due_date:
 			self.due_date = get_due_date(self.posting_date, self.supplier, "Supplier",
-				self.credit_to, self.company)
+										 self.credit_to, self.company)
 
 		super(PurchaseInvoice, self).set_missing_values(for_validate)
 
 	def get_advances(self):
 		super(PurchaseInvoice, self).get_advances(self.credit_to,
-			"Purchase Invoice Advance", "advance_allocation_details", "debit")
+												  "Purchase Invoice Advance", "advance_allocation_details", "debit")
 
 	def check_active_purchase_items(self):
 		for d in self.get('entries'):
-			if d.item_code:		# extra condn coz item_code is not mandatory in PV
+			if d.item_code:  # extra condn coz item_code is not mandatory in PV
 				if frappe.db.get_value("Item", d.item_code, "is_purchase_item") != 'Yes':
 					msgprint(_("Item {0} is not Purchase Item").format(d.item_code), raise_exception=True)
 
@@ -85,7 +86,8 @@ class PurchaseInvoice(BuyingController):
 		default_currency = get_company_currency(self.company)
 		if not default_currency:
 			throw(_('Please enter default currency in Company Master'))
-		if (self.currency == default_currency and flt(self.conversion_rate) != 1.00) or not self.conversion_rate or (self.currency != default_currency and flt(self.conversion_rate) == 1.00):
+		if (self.currency == default_currency and flt(self.conversion_rate) != 1.00) or not self.conversion_rate or (
+						self.currency != default_currency and flt(self.conversion_rate) == 1.00):
 			throw(_("Conversion rate cannot be 0 or 1"))
 
 	def validate_bill_no(self):
@@ -93,14 +95,14 @@ class PurchaseInvoice(BuyingController):
 				not in ['na', 'not applicable', 'none']:
 			b_no = frappe.db.sql("""select bill_no, name, ifnull(is_opening,'') from `tabPurchase Invoice`
 				where bill_no = %s and credit_to = %s and docstatus = 1 and name != %s""",
-				(self.bill_no, self.credit_to, self.name))
+								 (self.bill_no, self.credit_to, self.name))
 			if b_no and cstr(b_no[0][2]) == cstr(self.is_opening):
 				throw(_("Bill No {0} already booked in Purchase Invoice {1}").format(cstr(b_no[0][0]),
-					cstr(b_no[0][1])))
+																					 cstr(b_no[0][1])))
 
 			if not self.remarks and self.bill_date:
 				self.remarks = (self.remarks or '') + "\n" \
-					+ _("Against Bill {0} dated {1}").format(self.bill_no, formatdate(self.bill_date))
+							   + _("Against Bill {0} dated {1}").format(self.bill_no, formatdate(self.bill_date))
 
 		if not self.remarks:
 			self.remarks = "No Remarks"
@@ -115,8 +117,11 @@ class PurchaseInvoice(BuyingController):
 		if self.supplier and self.credit_to:
 			acc_head = frappe.db.sql("select master_name from `tabAccount` where name = %s", self.credit_to)
 
-			if (acc_head and cstr(acc_head[0][0]) != cstr(self.supplier)) or (not acc_head and (self.credit_to != cstr(self.supplier) + " - " + self.company_abbr)):
-				msgprint("Credit To: %s do not match with Supplier: %s for Company: %s.\n If both correctly entered, please select Master Type and Master Name in account master." %(self.credit_to,self.supplier,self.company), raise_exception=1)
+			if (acc_head and cstr(acc_head[0][0]) != cstr(self.supplier)) or (
+						not acc_head and (self.credit_to != cstr(self.supplier) + " - " + self.company_abbr)):
+				msgprint(
+					"Credit To: %s do not match with Supplier: %s for Company: %s.\n If both correctly entered, please select Master Type and Master Name in account master." % (
+						self.credit_to, self.supplier, self.company), raise_exception=1)
 
 	# Check for Stopped PO
 	# ---------------------
@@ -125,7 +130,8 @@ class PurchaseInvoice(BuyingController):
 		for d in self.get('entries'):
 			if d.purchase_order and not d.purchase_order in check_list and not d.purchase_receipt:
 				check_list.append(d.purchase_order)
-				stopped = frappe.db.sql("select name from `tabPurchase Order` where status = 'Stopped' and name = %s", d.purchase_order)
+				stopped = frappe.db.sql("select name from `tabPurchase Order` where status = 'Stopped' and name = %s",
+										d.purchase_order)
 				if stopped:
 					throw(_("Purchase Order {0} is 'Stopped'").format(d.purchase_order))
 
@@ -204,15 +210,15 @@ class PurchaseInvoice(BuyingController):
 
 	def po_required(self):
 		if frappe.db.get_value("Buying Settings", None, "po_required") == 'Yes':
-			 for d in self.get('entries'):
-				 if not d.purchase_order:
-					 throw(_("Purchse Order number required for Item {0}").format(d.item_code))
+			for d in self.get('entries'):
+				if not d.purchase_order:
+					throw(_("Purchse Order number required for Item {0}").format(d.item_code))
 
 	def pr_required(self):
 		if frappe.db.get_value("Buying Settings", None, "pr_required") == 'Yes':
-			 for d in self.get('entries'):
-				 if not d.purchase_receipt:
-					 throw(_("Purchase Receipt number required for Item {0}").format(d.item_code))
+			for d in self.get('entries'):
+				if not d.purchase_receipt:
+					throw(_("Purchase Receipt number required for Item {0}").format(d.item_code))
 
 	def validate_write_off_account(self):
 		if self.write_off_amount and not self.write_off_account:
@@ -221,48 +227,51 @@ class PurchaseInvoice(BuyingController):
 	def check_prev_docstatus(self):
 		for d in self.get('entries'):
 			if d.purchase_order:
-				submitted = frappe.db.sql("select name from `tabPurchase Order` where docstatus = 1 and name = %s", d.purchase_order)
+				submitted = frappe.db.sql("select name from `tabPurchase Order` where docstatus = 1 and name = %s",
+										  d.purchase_order)
 				if not submitted:
 					frappe.throw(_("Purchase Order {0} is not submitted").format(d.purchase_order))
 			if d.purchase_receipt:
-				submitted = frappe.db.sql("select name from `tabPurchase Receipt` where docstatus = 1 and name = %s", d.purchase_receipt)
+				submitted = frappe.db.sql("select name from `tabPurchase Receipt` where docstatus = 1 and name = %s",
+										  d.purchase_receipt)
 				if not submitted:
 					frappe.throw(_("Purchase Receipt {0} is not submitted").format(d.purchase_receipt))
 
 
 	def update_against_document_in_jv(self):
 		"""
-			Links invoice and advance voucher:
-				1. cancel advance voucher
-				2. split into multiple rows if partially adjusted, assign against voucher
-				3. submit advance voucher
-		"""
+            Links invoice and advance voucher:
+                1. cancel advance voucher
+                2. split into multiple rows if partially adjusted, assign against voucher
+                3. submit advance voucher
+        """
 
 		lst = []
 		for d in self.get('advance_allocation_details'):
 			if flt(d.allocated_amount) > 0:
 				args = {
-					'voucher_no' : d.journal_voucher,
-					'voucher_detail_no' : d.jv_detail_no,
-					'against_voucher_type' : 'Purchase Invoice',
-					'against_voucher'  : self.name,
-					'account' : self.credit_to,
-					'is_advance' : 'Yes',
-					'dr_or_cr' : 'debit',
-					'unadjusted_amt' : flt(d.advance_amount),
-					'allocated_amt' : flt(d.allocated_amount)
+					'voucher_no': d.journal_voucher,
+					'voucher_detail_no': d.jv_detail_no,
+					'against_voucher_type': 'Purchase Invoice',
+					'against_voucher': self.name,
+					'account': self.credit_to,
+					'is_advance': 'Yes',
+					'dr_or_cr': 'debit',
+					'unadjusted_amt': flt(d.advance_amount),
+					'allocated_amt': flt(d.allocated_amount)
 				}
 				lst.append(args)
 
 		if lst:
 			from erpnext.accounts.utils import reconcile_against_document
+
 			reconcile_against_document(lst)
 
 	def on_submit(self):
 		self.check_prev_docstatus()
 
 		frappe.get_doc('Authorization Control').validate_approving_authority(self.doctype,
-			self.company, self.grand_total)
+																			 self.company, self.grand_total)
 
 		# this sequence because outstanding may get -negative
 		self.make_gl_entries()
@@ -310,7 +319,8 @@ class PurchaseInvoice(BuyingController):
 			# accumulate valuation tax
 			if tax.category in ("Valuation", "Valuation and Total") and flt(tax.tax_amount):
 				if auto_accounting_for_stock and not tax.cost_center:
-					frappe.throw(_("Cost Center is required in row {0} in Taxes table for type {1}").format(tax.idx, _(tax.category)))
+					frappe.throw(_("Cost Center is required in row {0} in Taxes table for type {1}").format(tax.idx, _(
+						tax.category)))
 				valuation_tax.setdefault(tax.cost_center, 0)
 				valuation_tax[tax.cost_center] += \
 					(tax.add_deduct_tax == "Add" and 1 or -1) * flt(tax.tax_amount)
@@ -331,24 +341,25 @@ class PurchaseInvoice(BuyingController):
 				)
 
 			if auto_accounting_for_stock and item.item_code in stock_items and item.item_tax_amount:
-					# Post reverse entry for Stock-Received-But-Not-Billed if it is booked in Purchase Receipt
-					negative_expense_booked_in_pi = None
-					if item.purchase_receipt:
-						negative_expense_booked_in_pi = frappe.db.sql("""select name from `tabGL Entry`
+				# Post reverse entry for Stock-Received-But-Not-Billed if it is booked in Purchase Receipt
+				negative_expense_booked_in_pi = None
+				if item.purchase_receipt:
+					negative_expense_booked_in_pi = frappe.db.sql("""select name from `tabGL Entry`
 							where voucher_type='Purchase Receipt' and voucher_no=%s and account=%s""",
-							(item.purchase_receipt, expenses_included_in_valuation))
+																  (item.purchase_receipt,
+																   expenses_included_in_valuation))
 
-					if not negative_expense_booked_in_pi:
-						gl_entries.append(
-							self.get_gl_dict({
-								"account": stock_received_but_not_billed,
-								"against": self.credit_to,
-								"debit": flt(item.item_tax_amount, self.precision("item_tax_amount", item)),
-								"remarks": self.remarks or "Accounting Entry for Stock"
-							})
-						)
+				if not negative_expense_booked_in_pi:
+					gl_entries.append(
+						self.get_gl_dict({
+							"account": stock_received_but_not_billed,
+							"against": self.credit_to,
+							"debit": flt(item.item_tax_amount, self.precision("item_tax_amount", item)),
+							"remarks": self.remarks or "Accounting Entry for Stock"
+						})
+					)
 
-						negative_expense_to_be_booked += flt(item.item_tax_amount, self.precision("item_tax_amount", item))
+					negative_expense_to_be_booked += flt(item.item_tax_amount, self.precision("item_tax_amount", item))
 
 		if negative_expense_to_be_booked and valuation_tax:
 			# credit valuation tax amount in "Expenses Included In Valuation"
@@ -391,10 +402,12 @@ class PurchaseInvoice(BuyingController):
 
 		if gl_entries:
 			from erpnext.accounts.general_ledger import make_gl_entries
+
 			make_gl_entries(gl_entries, cancel=(self.docstatus == 2))
 
 	def on_cancel(self):
 		from erpnext.accounts.utils import remove_against_link_from_jv
+
 		remove_against_link_from_jv(self.doctype, self.name, "against_voucher")
 
 		self.update_prevdoc_status()
@@ -403,6 +416,7 @@ class PurchaseInvoice(BuyingController):
 
 	def on_update(self):
 		pass
+
 
 @frappe.whitelist()
 def get_expense_account(doctype, txt, searchfield, start, page_len, filters):
@@ -421,4 +435,4 @@ def get_expense_account(doctype, txt, searchfield, start, page_len, filters):
 				and tabAccount.company = '%(company)s'
 				and tabAccount.%(key)s LIKE '%(txt)s'
 				%(mcond)s""" % {'company': filters['company'], 'key': searchfield,
-			'txt': "%%%s%%" % txt, 'mcond':get_match_cond(doctype)})
+								'txt': "%%%s%%" % txt, 'mcond': get_match_cond(doctype)})
