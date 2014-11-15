@@ -613,22 +613,36 @@ erpnext.selling.SellingController = erpnext.TransactionController.extend({
 		var offer = cur_frm.fields_dict.offer_name.value;
 
 		if (offer) {
-			var main_offer_items =  this.frm.call({
+			var me = this;
+			var main_offer_items =  frappe.call({
 				method: "erpnext.controllers.queries.offer_query_main",
 				args: {
 					offer_name: offer,
 				},
+				callback: function(r) {
+					if(r.message) {
+						me.frm.set_value( "offer_html", r.message);
+					};
+				},
 			});
-			var offered_items =  this.frm.call({
+
+
+			var offered_items =  frappe.call({
+
 				method: "erpnext.controllers.queries.offer_query_offered",
 				args: {
 					offer_name: offer,
 				},
+				callback: function(r) {
+					if(r.message) {
+						me.frm.set_value( "offer_html2", r.message);
+					};
+				},
 			});
 		};
 
-		console.log(main_offer_items);
-		console.log(offered_items);
+		console.log(this);
+		//console.log(offered_items);
 
 		//var $wrapper = $(cur_frm.fields_dict.offer_html.wrapper).html('<h3>'+offer+'</h3>');
 		//var $wrapper2 = $(cur_frm.fields_dict.offer_html2.wrapper).html('<h3>'+offer+'</h3>');
