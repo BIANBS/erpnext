@@ -613,7 +613,6 @@ erpnext.selling.SellingController = erpnext.TransactionController.extend({
 		var offer = cur_frm.fields_dict.offer_name.value;
 
 		if (offer) {
-			var me = this;
 			var main_offer_items =  frappe.call({
 				method: "erpnext.controllers.queries.offer_query_main",
 				args: {
@@ -621,7 +620,11 @@ erpnext.selling.SellingController = erpnext.TransactionController.extend({
 				},
 				callback: function(r) {
 					if(r.message) {
-						me.frm.set_value( "offer_html", r.message);
+						var $wrap = $(cur_frm.fields_dict.offer_html.disp_area).empty();
+						for (i=0; i<r.message.length; i++)  {
+							var m = r.message[i];
+							$('<div class="col-xs-8 ">'+m[0]+'</div> --'+m[1]).appendTo($wrap);
+						}
 					};
 				},
 			});
@@ -635,16 +638,16 @@ erpnext.selling.SellingController = erpnext.TransactionController.extend({
 				},
 				callback: function(r) {
 					if(r.message) {
-						me.frm.set_value( "offer_html2", r.message);
+						var $wrap = $(cur_frm.fields_dict.offer_html2.disp_area).empty();
+						for (i=0; i<r.message.length; i++)  {
+							var m = r.message[i];
+							$('<div class="col-xs-8 ">'+m[0]+'</div> --'+m[1]).appendTo($wrap);
+						}
+
 					};
 				},
 			});
 		};
-
-		console.log(this);
-		//console.log(offered_items);
-
-		//var $wrapper = $(cur_frm.fields_dict.offer_html.wrapper).html('<h3>'+offer+'</h3>');
-		//var $wrapper2 = $(cur_frm.fields_dict.offer_html2.wrapper).html('<h3>'+offer+'</h3>');
 	}
+
 });
