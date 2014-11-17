@@ -623,7 +623,8 @@ erpnext.selling.SellingController = erpnext.TransactionController.extend({
 						var $wrap = $(cur_frm.fields_dict.offer_html.disp_area).empty();
 						for (i=0; i<r.message.length; i++)  {
 							var m = r.message[i];
-							$('<div class="col-xs-8 ">'+m[0]+'</div> --'+m[1]).appendTo($wrap);
+							$('<div class="col-md-12" style="text-align: center;">'+m[0]+' -- '+m[1]+'</div>'+
+							   '<div class="col-md-12" style="text-align: center;"><input type="text" class="frappe-control" style="text-align: right;"></div>').appendTo($wrap);
 						}
 					};
 				},
@@ -641,7 +642,8 @@ erpnext.selling.SellingController = erpnext.TransactionController.extend({
 						var $wrap = $(cur_frm.fields_dict.offer_html2.disp_area).empty();
 						for (i=0; i<r.message.length; i++)  {
 							var m = r.message[i];
-							$('<div class="col-xs-8 ">'+m[0]+'</div> --'+m[1]).appendTo($wrap);
+							$('<div class="col-md-12" style="text-align: center;">'+m[0]+' -- '+m[1]+'</div>'+
+							   '<div class="col-md-12" style="text-align: center;"><input type="text" class="frappe-control" style="text-align: right;"></div>').appendTo($wrap);
 						}
 
 					};
