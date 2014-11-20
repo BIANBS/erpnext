@@ -609,7 +609,7 @@ erpnext.selling.SellingController = erpnext.TransactionController.extend({
 		});
 	},
 
-	offer_name: function() {
+/*	offer_name: function() {
 		var offer = cur_frm.fields_dict.offer_name.value;
 
 		if (offer) {
@@ -650,6 +650,6 @@ erpnext.selling.SellingController = erpnext.TransactionController.extend({
 				},
 			});
 		};
-	}
+	} */
 
 });

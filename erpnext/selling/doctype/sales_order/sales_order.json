@@ -252,6 +252,13 @@
    "permlevel": 0
   }, 
   {
+   "fieldname": "offer_main_items", 
+   "fieldtype": "Dynamic Link", 
+   "label": "Main Items", 
+   "options": "Offer Items Main,offer_name", 
+   "permlevel": 0
+  }, 
+  {
    "fieldname": "offer_html", 
    "fieldtype": "HTML", 
    "label": "Offer_html", 
@@ -273,6 +280,13 @@
    "fieldname": "offer_qty", 
    "fieldtype": "Int", 
    "label": "Offer Qty", 
+   "permlevel": 0
+  }, 
+  {
+   "fieldname": "offer_offered_items", 
+   "fieldtype": "Dynamic Link", 
+   "label": "Offered Items", 
+   "options": "Offer Items Offered,offer_name", 
    "permlevel": 0
   }, 
   {
@@ -1037,7 +1051,7 @@
  "idx": 1, 
  "is_submittable": 1, 
  "issingle": 0, 
- "modified": "2014-11-10 12:05:22.555892", 
+ "modified": "2014-11-21 00:13:28.671382", 
  "modified_by": "Administrator", 
  "module": "Selling", 
  "name": "Sales Order", 

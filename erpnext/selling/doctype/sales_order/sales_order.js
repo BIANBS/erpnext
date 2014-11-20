@@ -200,10 +200,10 @@ cur_frm.cscript.send_sms = function() {
 	var sms_man = new SMSManager(cur_frm.doc);
 };
 
-cur_frm.fields_dict["offer_name"].get_query = function(doc, cdt, offer_name) {
-	return {
-		filters: {
-	    		"enabled": 1
-		}
-	};
-};
+// cur_frm.fields_dict["offer_name"].get_query = function(doc, cdt, offer_name) {
+// 	return {
+// 		filters: {
+// 	    		"enabled": 1
+// 		}
+// 	};
+// };
