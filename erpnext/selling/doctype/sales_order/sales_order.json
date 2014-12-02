@@ -238,64 +238,6 @@
    "read_only": 1
   }, 
   {
-   "fieldname": "offers_section", 
-   "fieldtype": "Section Break", 
-   "label": "Offers", 
-   "options": "icon-gift", 
-   "permlevel": 0
-  }, 
-  {
-   "fieldname": "offer_name", 
-   "fieldtype": "Link", 
-   "label": "Offer", 
-   "options": "Offer", 
-   "permlevel": 0
-  }, 
-  {
-   "fieldname": "offer_main_items", 
-   "fieldtype": "Dynamic Link", 
-   "label": "Main Items", 
-   "options": "Offer Items Main,offer_name", 
-   "permlevel": 0
-  }, 
-  {
-   "fieldname": "offer_html", 
-   "fieldtype": "HTML", 
-   "label": "Offer_html", 
-   "permlevel": 0
-  }, 
-  {
-   "fieldname": "offer_insert", 
-   "fieldtype": "Button", 
-   "label": "Insert", 
-   "permlevel": 0
-  }, 
-  {
-   "fieldname": "offer_coloumn", 
-   "fieldtype": "Column Break", 
-   "label": "offer_column", 
-   "permlevel": 0
-  }, 
-  {
-   "fieldname": "offer_qty", 
-   "fieldtype": "Int", 
-   "label": "Offer Qty", 
-   "permlevel": 0
-  }, 
-  {
-   "fieldname": "offer_offered_items", 
-   "fieldtype": "Dynamic Link", 
-   "label": "Offered Items", 
-   "options": "Offer Items Offered,offer_name", 
-   "permlevel": 0
-  }, 
-  {
-   "fieldname": "offer_html2", 
-   "fieldtype": "HTML", 
-   "label": "Offer_html2", 
-   "permlevel": 0
-  }, 
-  {
    "fieldname": "items", 
    "fieldtype": "Section Break", 
    "label": "Items", 
@@ -1051,7 +993,7 @@
  "idx": 1, 
  "is_submittable": 1, 
  "issingle": 0, 
- "modified": "2014-11-21 00:13:28.671382", 
+ "modified": "2014-12-02 12:56:41.676735", 
  "modified_by": "Administrator", 
  "module": "Selling", 
  "name": "Sales Order", 
